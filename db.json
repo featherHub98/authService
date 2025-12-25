@@ -1,12 +1,9 @@
-{
-    "authUsers":[
-
-    ],
-    "realms":[
-
-    ],
-    "secrets":[
-
-    ]
-
-}
+[
+  {
+    "id": 1,
+    "email": "yassin@gmail.com",
+    "password": "$2b$10$XOrNr7r6/jXHT7P4Y.eLz.zMQsov8adejEUNdWIuVD/dDk/WPSZEa",
+    "username": "yassin",
+    "roles": "[admin,user]"
+  }
+]
