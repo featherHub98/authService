@@ -16,7 +16,12 @@ router.get('/users', async (req, res) => {
 });
 
 router.get('/users/:id', async (req, res) => {
-
+    try {
+        let id = parseInt(req.params.id);
+        await authUserService.getUserById(req,res,id);
+    } catch (error) {
+        res.status(500).json({message : 'could not retrieve the user', error: error.message});
+    }
 
 });
 
@@ -24,20 +29,36 @@ router.post('/users', async (req, res) => {
     try{
         const { username,email,password,roles}=req.body;
         let user={"username":username,"email":email,"password":password,"roles":roles};
-        if(!user) res.status(400).json({message : "user data is required"});
-        const msg=await authUserService.addUser(req,res,user);
-        // return res.status(201).json({message : "user added successfully " + msg});
+        if(!user) return res.status(400).json({message : "user data is required"});
+        await authUserService.addUser(req,res,user);
     }catch(err){
-        // res.status(500).json({message : 'could not save the user'});
+        res.status(500).json({message : 'could not save the user', error: err.message});
     }
 });
 
 router.delete('/users/:id', async (req, res) => {
-
+    try {
+        let id = parseInt(req.params.id);
+        if(!id){
+            return res.status(400).json({message:'id required'})
+        }
+        await authUserService.deleteUser(req,res,id)
+        
+    } catch (error) {
+        res.status(500).json({message : 'could not delete the user', error: error.message});
+    }
 });
 
 router.put('/users/:id', async (req, res) => {
-
+    try {
+         const { username,email,password,roles}=req.body;
+         let user={"username":username,"email":email,"password":password,"roles":roles};
+         let id=parseInt(req.params.id);
+         if(!user) return res.status(400).json({message : "user data is required"});
+         await authUserService.updateUser(id,user,res);
+    } catch (error) {
+        res.status(500).json({message : 'could not update the user', error: error.message});
+    }
 });
 
 
